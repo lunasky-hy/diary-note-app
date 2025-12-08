@@ -12,12 +12,13 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+  height: max-content;
   min-width: 320px;
   min-height: 100vh;
 }
 
 #root {
-  margin: 0 auto;
-  padding: 1rem;
-  text-align: center;
+  height: 100%;
+  min-height: 100vh;
+  width: 100%;
 }

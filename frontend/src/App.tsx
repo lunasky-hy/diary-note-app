@@ -1,24 +1,35 @@
-import { Flex } from 'antd';
+import { Flex, Layout } from 'antd';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import PostNote from './pages/PostNote';
+import PostQuestions from './pages/PostQuestions';
+import AppFooter from './layouts/Footer';
 
 const layoutStyle: React.CSSProperties = {
   width: '100%',
+  height: '100vh',
+  textAlign: 'center',
+};
+
+const innerBodyStyle: React.CSSProperties = {
+  width: '100%',
   maxWidth: 980,
   height: 'max-content',
-  minHeight: '100%',
-  margin: '0 auto',
+  margin: 'auto',
 };
 
 function App() {
   return (
-    <Flex vertical style={layoutStyle}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<PostNote />} />
-        </Routes>
-      </BrowserRouter>
-    </Flex>
+    <Layout hasSider={false} style={layoutStyle}>
+      <Flex vertical style={innerBodyStyle}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<PostNote />} />
+            <Route path="/questions" element={<PostQuestions />} />
+          </Routes>
+        </BrowserRouter>
+      </Flex>
+      <AppFooter />
+    </Layout>
   );
 }
 

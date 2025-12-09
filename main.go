@@ -1,10 +1,15 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"time"
 
+	"github.com/lunasky-hy/dialy-note-app/src/database"
+	"github.com/lunasky-hy/dialy-note-app/src/repository"
+
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 type question struct {
@@ -32,6 +37,14 @@ var mockDiaries = []daiary{
 }
 
 func main() {
+	enverr := godotenv.Load()
+	if enverr != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	db := database.ConnectPostgres()
+	repos := repository.CreateRepository(db)
+
 	// loggerとrecoveryミドルウェア付きGinルーター作成
 	r := gin.Default()
 
@@ -39,7 +52,8 @@ func main() {
 		v1 := r.Group("/v1")
 
 		v1.GET("/api/questions", func(c *gin.Context) {
-			c.JSON(http.StatusOK, mockQuestions)
+			ques, _ := repos.ReadQuestion(1)
+			c.JSON(http.StatusOK, ques)
 		})
 		v1.POST("/api/questions", func(c *gin.Context) {
 			c.String(http.StatusAccepted, `sended`);
@@ -56,8 +70,8 @@ func main() {
 
 	// ポート8080でサーバー起動（デフォルト）
 	// 0.0.0.0:8080（Windowsではlocalhost:8080）で待機
-	err := r.Run()
-	if err != nil {
+	sverr := r.Run()
+	if sverr != nil {
 		return
 	}
 }

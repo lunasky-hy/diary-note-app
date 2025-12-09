@@ -3,14 +3,12 @@ import { Button, Card, Flex, Form, Input, Segmented, Typography } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useCallback, useState } from 'react';
 import useSWR from 'swr';
+import { fetcherJson } from '../lib/fetcher';
+import type { Question } from '../models/question';
+
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
 const { Title, Link } = Typography;
-
-type Question = {
-  id: number;
-  qtext: string;
-};
 
 type PostForm = {
   theme: number;
@@ -22,9 +20,7 @@ export default function PostNote() {
     data: questions,
     isLoading,
     mutate,
-  } = useSWR<Question[]>('/v1/api/questions', (key: string) =>
-    fetch(key).then((res) => res.json()),
-  );
+  } = useSWR<Question[]>('/v1/api/questions', fetcherJson);
   const [isSending, setIsSending] = useState(false);
   const [form] = useForm<PostForm>();
 
@@ -57,7 +53,7 @@ export default function PostNote() {
   return (
     <Flex vertical gap={'large'}>
       <Title level={1}>{getDateString()}</Title>
-      <Card style={{ width: '100%', maxWidth: 680, margin: 'auto' }}>
+      <Card>
         <Flex gap={'middle'} vertical>
           <Title level={3}>今日の記録を書き留めよう。</Title>
           <Form

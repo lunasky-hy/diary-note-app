@@ -7,6 +7,7 @@ export default function AppFooter() {
     <Footer>
       <Flex gap={'middle'} justify="center">
         <Link href="/">日記を記録</Link>
+        <Link href="/diaries">日記を振り返る</Link>
         <Link href="/questions">質問を追加</Link>
       </Flex>
       <Divider />

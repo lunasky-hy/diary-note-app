@@ -16,8 +16,8 @@ type daiary struct {
 	Id int `json:"id"`
 	Note string `json:"note"`
 	UserId int `json:"userId"`
-	Qustion question `json:"question"`
-	CreatedAt time `json:"createdAt"`
+	Question question `json:"question"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 var mockQuestions = []question{
@@ -27,7 +27,8 @@ var mockQuestions = []question{
 }
 
 var mockDiaries = []daiary{
-	{Id: 1, Note: "最高!", UserId: 1, Question: { Id: 1, QText:  "今の気分は？" }, CreatedAt: date.new()}
+	{Id: 1, Note: "最高!", UserId: 1, Question: mockQuestions[0], CreatedAt: time.Now()},
+	{Id: 2, Note: "ぼちぼち", UserId: 1, Question: mockQuestions[0], CreatedAt: time.Now()},
 }
 
 func main() {
@@ -46,7 +47,7 @@ func main() {
 		
 
 		v1.GET("/api/diaries", func(c *gin.Context) {
-			c.JSON(http.StatusOK, mockQuestions)
+			c.JSON(http.StatusOK, mockDiaries)
 		})
 		v1.POST("/api/diaries", func(c *gin.Context) {
 			c.String(http.StatusAccepted, `sended`);

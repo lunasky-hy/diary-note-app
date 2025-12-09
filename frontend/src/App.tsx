@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import PostNote from './pages/PostNote';
 import PostQuestions from './pages/PostQuestions';
 import AppFooter from './layouts/Footer';
+import Diaries from './pages/Diaries';
 
 const layoutStyle: React.CSSProperties = {
   width: '100%',
@@ -12,7 +13,7 @@ const layoutStyle: React.CSSProperties = {
 
 const innerBodyStyle: React.CSSProperties = {
   width: '100%',
-  maxWidth: 980,
+  maxWidth: 680,
   height: 'max-content',
   margin: 'auto',
 };
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<PostNote />} />
             <Route path="/questions" element={<PostQuestions />} />
+            <Route path="/diaries" element={<Diaries />} />
           </Routes>
         </BrowserRouter>
       </Flex>

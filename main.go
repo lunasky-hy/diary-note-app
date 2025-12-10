@@ -27,6 +27,10 @@ func main() {
 	diaryService := service.CreateDiaryService(repos)
 	diaryController := controller.CreateDiaryController(diaryService)
 
+	authService := service.CreateAuthService(repos)
+	authController := controller.CreateAuthController(authService)
+
+
 	// loggerとrecoveryミドルウェア付きGinルーター作成
 	r := gin.Default()
 
@@ -38,6 +42,9 @@ func main() {
 
 		v1.GET("/api/diaries", diaryController.Get)
 		v1.POST("/api/diaries", diaryController.Post)
+
+		v1.POST("/api/auth/signup", authController.Signup)
+		v1.POST("/api/auth/signin", authController.Signin)
 	}
 
 	// ポート8080でサーバー起動（デフォルト）

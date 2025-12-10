@@ -35,6 +35,17 @@ func (d DiaryRepository) DiariesFind(userId uint) ([]model.Diary, error) {
 	return diaries, error
 }
 
+func (d DiaryRepository) UserCreate(user model.User) error {
+	err := gorm.G[model.User](d.db).Create(d.ctx, &user)
+	return err
+}
+
+func (d DiaryRepository) UserGet(username string) (model.User, error) {
+	var user model.User
+	err := d.db.Model(&model.User{}).Where("name = ?", username).First(&user).Error
+	return user, err
+}
+
 func CreateRepository(db *gorm.DB) DiaryRepository {
 	context := context.Background()
 	repos := DiaryRepository{db, context}

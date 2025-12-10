@@ -12,6 +12,7 @@ type Diary struct {
 	Note string
 	UserID uint
 	QuestionID uint
+	Question Question `gorm:"foreignKey:QuestionID"`
 	CreatedAt time.Time `json:"createdAt"`
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }

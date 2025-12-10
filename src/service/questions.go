@@ -10,7 +10,7 @@ type QuestionService struct {
 }
 
 func (s QuestionService) Find() ([]model.Question, error) {
-	questions, error := s.repos.QuestionFind()
+	questions, error := s.repos.QuestionsFind()
 	return questions, error
 }
 

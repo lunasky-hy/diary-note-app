@@ -31,7 +31,7 @@ export default function PostNote() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          themeId: values.theme,
+          questionId: values.theme,
           note: values.note,
           userId: 1,
         }),

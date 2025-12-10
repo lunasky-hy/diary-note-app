@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"time"
 
 	"github.com/lunasky-hy/dialy-note-app/src/controller"
@@ -46,9 +45,12 @@ func main() {
 
 	db := database.ConnectPostgres()
 	repos := repository.CreateRepository(db)
-	
+
 	questionService := service.CreateQuestonService(repos)
 	questionController := controller.CreateQuestionController(questionService)
+
+	diaryService := service.CreateDiaryService(repos)
+	diaryController := controller.CreateDiaryController(diaryService)
 
 	// loggerとrecoveryミドルウェア付きGinルーター作成
 	r := gin.Default()
@@ -59,12 +61,8 @@ func main() {
 		v1.GET("/api/questions", questionController.Get)
 		v1.POST("/api/questions", questionController.Post)
 
-		v1.GET("/api/diaries", func(c *gin.Context) {
-			c.JSON(http.StatusOK, mockDiaries)
-		})
-		v1.POST("/api/diaries", func(c *gin.Context) {
-			c.String(http.StatusAccepted, `sended`);
-		})
+		v1.GET("/api/diaries", diaryController.Get)
+		v1.POST("/api/diaries", diaryController.Post)
 	}
 
 	// ポート8080でサーバー起動（デフォルト）

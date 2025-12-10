@@ -17,7 +17,7 @@ func (d DiaryRepository) QuestionCreate(question model.Question) error {
 	return err
 }
 
-func (d DiaryRepository) QuestionFind() ([]model.Question, error) {
+func (d DiaryRepository) QuestionsFind() ([]model.Question, error) {
 	// questions, err := gorm.G[model.Question](d.db).Find(d.ctx)
 	var questions []model.Question
 	error := d.db.Find(&questions).Error
@@ -29,10 +29,11 @@ func (d DiaryRepository) DiaryCreate(diary model.Diary) error {
 	return err
 }
 
-// func (d DiaryRepository) ReadDiaries(userId uint) ([]model.Diary, error) {
-// 	diaries, error := gorm.G[model.User](d.db).Joins("Diary").Find(d.ctx)
-// 	return diaries, error
-// }
+func (d DiaryRepository) DiariesFind(userId uint) ([]model.Diary, error) {
+	var diaries []model.Diary
+	error := d.db.Model(&model.Diary{}).Where(&model.Diary{UserID: userId}).Find(diaries).Error
+	return diaries, error
+}
 
 func CreateRepository(db *gorm.DB) DiaryRepository {
 	context := context.Background()

@@ -6,6 +6,8 @@ import AppFooter from './layouts/Footer';
 import Diaries from './pages/Diaries';
 import Signup from './pages/auth/Signup';
 import Signin from './pages/auth/Signin';
+import Signout from './pages/auth/Signout';
+import AuthedRoutes from './layouts/AuthedRoutes';
 
 const layoutStyle: React.CSSProperties = {
   width: '100%',
@@ -26,12 +28,15 @@ function App() {
       <Flex vertical style={innerBodyStyle}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<PostNote />} />
-            <Route path="/post" element={<PostNote />} />
-            <Route path="/questions" element={<PostQuestions />} />
-            <Route path="/diaries" element={<Diaries />} />
             <Route path="/auth/signup" element={<Signup />} />
             <Route path="/auth/signin" element={<Signin />} />
+            <Route element={<AuthedRoutes />}>
+              <Route path="/" element={<PostNote />} />
+              <Route path="/post" element={<PostNote />} />
+              <Route path="/questions" element={<PostQuestions />} />
+              <Route path="/diaries" element={<Diaries />} />
+              <Route path="/auth/signout" element={<Signout />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </Flex>

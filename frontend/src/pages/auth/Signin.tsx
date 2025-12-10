@@ -1,6 +1,8 @@
 import { Button, Card, Flex, Form, Input, Typography } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useCallback, useState } from 'react';
+import useAuthStorage from '../../lib/useAuthStorage';
+import { Navigate } from 'react-router';
 const { Item: FormItem } = Form;
 const { Title } = Typography;
 const { Password } = Input;
@@ -13,21 +15,28 @@ type SigninForm = {
 export default function Signin() {
   const [form] = useForm<SigninForm>();
   const [isSending, setIsSending] = useState(false);
+  const { token, setToken } = useAuthStorage();
 
-  const handleSubmit = useCallback((values: SigninForm) => {
-    setIsSending(true);
-    fetch('/v1/api/auth/signin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: values.username,
-        password: values.password,
-      }),
-    })
-      .then((raw) => raw.json())
-      .then(() => setIsSending(false))
-      .catch((e) => console.log(e));
-  }, []);
+  const handleSubmit = useCallback(
+    (values: SigninForm) => {
+      setIsSending(true);
+      fetch('/v1/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: values.username,
+          password: values.password,
+        }),
+      })
+        .then((raw) => raw.json())
+        .then((d) => setToken(d.token))
+        .then(() => setIsSending(false))
+        .catch((e) => console.log(e));
+    },
+    [setToken],
+  );
+
+  if (token) return <Navigate to={'/'} />;
 
   return (
     <Flex vertical gap={'middle'}>

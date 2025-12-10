@@ -4,6 +4,8 @@ import PostNote from './pages/PostNote';
 import PostQuestions from './pages/PostQuestions';
 import AppFooter from './layouts/Footer';
 import Diaries from './pages/Diaries';
+import Signup from './pages/auth/Signup';
+import Signin from './pages/auth/Signin';
 
 const layoutStyle: React.CSSProperties = {
   width: '100%',
@@ -25,8 +27,11 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<PostNote />} />
+            <Route path="/post" element={<PostNote />} />
             <Route path="/questions" element={<PostQuestions />} />
             <Route path="/diaries" element={<Diaries />} />
+            <Route path="/auth/signup" element={<Signup />} />
+            <Route path="/auth/signin" element={<Signin />} />
           </Routes>
         </BrowserRouter>
       </Flex>

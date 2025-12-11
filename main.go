@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"path"
 	"path/filepath"
@@ -51,6 +52,11 @@ func main() {
 
 		v1.POST("/api/auth/signup", authController.Signup)
 		v1.POST("/api/auth/signin", authController.Signin)
+
+		v1.GET("/api/database", func(ctx *gin.Context) {
+			str := os.Getenv("DB_URL")
+			ctx.JSON(http.StatusAccepted, gin.H{"str": str})
+		})
 	}
 
 	r.NoRoute(func(c *gin.Context) {
